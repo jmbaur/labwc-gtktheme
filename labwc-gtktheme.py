@@ -59,11 +59,8 @@ def color_hex(color):
 def hex_from_expr(line):
     """ parse color expression to return hex style rrggbb """
     tokens = tokenize(BytesIO(line.encode('utf-8')).readline)
-    try:
-        color = parse(tokens)
-        return color_hex(color)
-    except tokenize.TokenError:
-        pass
+    color = parse(tokens)
+    return color_hex(color)
 
 def mkdir_p(path):
     try:
