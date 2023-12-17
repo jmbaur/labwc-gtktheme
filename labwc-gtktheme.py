@@ -118,6 +118,7 @@ def main():
     parser.add_argument("--css-file", help="path to css file instead of auto-detecting", action='store')
     parser.add_argument("--css", help="dump css and exit", action='store_true')
     parser.add_argument("--colors", help="dump colors and exit", action='store_true')
+    parser.add_argument("--outfile", help="path to output file", action='store')
     args = parser.parse_args()
 
     if args.css_file:
@@ -160,13 +161,16 @@ def main():
             print(f"{key}: {value}")
         return
 
-    themename = 'GTK'
-    themedir = os.getenv("HOME") + "/.local/share/themes/" + themename + "/openbox-3"
-    mkdir_p(themedir)
-    themefile = themedir + "/themerc"
-    print(f"Create theme {themename} at {themedir}")
+    if args.outfile:
+        outfile = args.outfile
+    else:
+        themename = 'GTK'
+        themedir = os.getenv("HOME") + "/.local/share/themes/" + themename + "/openbox-3"
+        mkdir_p(themedir)
+        outfile = themefile = themedir + "/themerc"
+        print(f"Create theme {themename} at {themedir}")
 
-    with open(themefile, "w") as f:
+    with open(outfile, "w") as f:
         add(f, "window.active.title.bg.color", theme["theme_bg_color"])
         add(f, "window.inactive.title.bg.color", theme["theme_bg_color"])
 
